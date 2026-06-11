@@ -35,7 +35,7 @@ async function requestHandler(req: http.IncomingMessage, res: http.ServerRespons
 
             if (normalizedSort !== SortDirection.ASC && normalizedSort !== SortDirection.DESC) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: `Valore '%sort' non valido: '${sortParam}'. Accettati solo 'asc' o 'desc' (case-insensitive).` }));
+                res.end(JSON.stringify({ error: `Valore del parametro '%sort' non valido: '${sortParam}'. Accettati solo 'asc' o 'desc' (sia in MAIUSCOLO che in minuscolo)` }));
                 return;
             }
 
@@ -52,15 +52,15 @@ async function requestHandler(req: http.IncomingMessage, res: http.ServerRespons
 
 
         res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: "Endpoint non trovato. Usa GET /cities" }));
+        res.end(JSON.stringify({ error: "Endpoint non trovato. Usare GET /cities" }));
 
     } catch (error) {
 
-        console.error("[Global Error] Errore imprevisto nel server:", error);
+        console.error("[Global Error] Errore nel server:", error);
         
 
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: "Internal Server Error - Si è verificato un errore nel server backend." }));
+        res.end(JSON.stringify({ error: "Internal Server Error . Si è verificato un errore nel server backend" }));
     }
 }
 
