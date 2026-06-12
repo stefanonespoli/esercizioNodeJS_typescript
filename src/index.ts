@@ -56,7 +56,7 @@ async function requestHandler(req: http.IncomingMessage, res: http.ServerRespons
 
     } catch (error) {
 
-        console.error("[Global Error] Errore nel server:", error);
+        console.error("[Global Error] errore nel server:", error);
         
 
         res.writeHead(500, { 'Content-Type': 'application/json' });
