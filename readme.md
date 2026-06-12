@@ -1,42 +1,42 @@
-Progetto backend  Ordinamento Città con Node.js e TypeScript
+Progetto backend  Ordinamento Città con Node.js e TypeScript  
 
-Istruzioni per la configurazione e avvio  (istruzioni bash,aprendo il command prompt nella cartella di progetto)
-
-
-
-1. Installare i pacchetti definiti nel file package.json:
-
-npm install
+Istruzioni per la configurazione e avvio  (istruzioni bash,aprendo il command prompt nella cartella di progetto)  
 
 
 
+1. Installare i pacchetti definiti nel file package.json:  
 
-2. Esecuzione dei Test 
-Per lanciare tutti i test automatizzati con Jest:
-
-npm test
+npm install  
 
 
 
 
-3. Avvio del Server
-Avviare il server Node.js eseguendo il codice compilato:
+2. Esecuzione dei Test   
+Per lanciare tutti i test automatizzati con Jest:  
 
-npx tsc
-node dist/index.js
-
+npm test  
 
 
 
---------------  Endpoint disponibili  -------------
-GET /cities
-Restituisce l'elenco delle città ordinate in base alla popolazione
 
-Parametro obbligatorio: sort (valori ammessi: asc, desc)
+3. Avvio del Server  
+Avviare il server Node.js eseguendo il codice compilato:  
+
+npx tsc  
+node dist/index.js  
 
 
-Esempi di richiesta:
 
-Ordine crescente: http://localhost:3000/cities?sort=asc
 
-Ordine decrescente: http://localhost:3000/cities?sort=DESC
+--------------  Endpoint disponibili  -------------  
+GET /cities  
+Restituisce l'elenco delle città ordinate in base alla popolazione  
+
+Parametro obbligatorio: sort (valori ammessi: asc, desc)  
+
+
+Esempi di richiesta:  
+
+Ordine crescente: http://localhost:3000/cities?sort=asc  
+
+Ordine decrescente: http://localhost:3000/cities?sort=DESC  
