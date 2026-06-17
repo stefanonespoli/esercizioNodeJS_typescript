@@ -66,7 +66,7 @@ async function requestHandler(req, res) {
         res.end(JSON.stringify({ error: "Endpoint non trovato. Usare GET /cities" }));
     }
     catch (error) {
-        console.error("[Global Error] Errore nel server:", error);
+        console.error("[Global Error] errore nel server:", error);
         res.writeHead(500, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: "Internal Server Error . Si è verificato un errore nel server backend" }));
     }

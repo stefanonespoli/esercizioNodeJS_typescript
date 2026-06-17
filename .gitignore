@@ -1,5 +1,1 @@
-node_modules/
-.env
-Thumbs.db
-.DS_Store
-*.log
+-e "node_modules/\n\ndist/\n\n.env\nThumbs.db\n.DS_Store\n*.log" 
