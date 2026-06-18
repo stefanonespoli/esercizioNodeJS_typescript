@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "test": "npx jest"
+  "test": "jest --setupFiles=dotenv/config",
+  "build": "tsc"
   },
   "dependencies": {
     "dotenv": "17.4.2"

@@ -36,19 +36,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cityDao_1 = require("./cityDao");
 const fs = __importStar(require("fs/promises"));
 const dotenv = __importStar(require("dotenv"));
-dotenv.config();
+const path = __importStar(require("path"));
+dotenv.config({ path: path.resolve(__dirname, '../.env.test') });
 describe('City DAO Integration Tests', () => {
-    const testFilePath = 'test-cities.json';
-    let originalEnvPath;
-    // prima di tutti i test, scambiao il file reale con un file di test 
-    beforeAll(() => {
-        originalEnvPath = process.env.CITIES_FILE_PATH;
-        process.env.CITIES_FILE_PATH = testFilePath;
-    });
-    // alla fine di tutti i test, rimettiamo a posto la variabile d'ambiente 
-    afterAll(() => {
-        process.env.CITIES_FILE_PATH = originalEnvPath;
-    });
+    const testFilePath = process.env.CITIES_FILE_PATH || 'test-cities.json';
     beforeEach(async () => {
         const mockData = [
             { name: "Test Milan", population: 100 },
@@ -56,18 +47,24 @@ describe('City DAO Integration Tests', () => {
         ];
         await fs.writeFile(testFilePath, JSON.stringify(mockData), 'utf8');
     });
-    // dopo ogni singolo test, faccio pulizia
     afterEach(async () => {
         try {
             await fs.unlink(testFilePath);
         }
-        catch (err) {
-        }
+        catch (err) { }
     });
     it('dovrebbe leggere correttamente tutte le città tramite aiuto del file ENV', async () => {
         const cities = await (0, cityDao_1.readCitiesFromFile)();
         expect(cities).toHaveLength(2);
         expect(cities[0].name).toBe('Test Milan');
         expect(cities[1].population).toBe(200);
+    });
+    // nuovo
+    it('dovrebbe lanciare un errore se il file JSON non esiste sul disco', async () => {
+        try {
+            await fs.unlink(testFilePath);
+        }
+        catch (err) { }
+        await expect((0, cityDao_1.readCitiesFromFile)()).rejects.toThrow();
     });
 });

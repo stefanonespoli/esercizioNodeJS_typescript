@@ -33,13 +33,12 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.readCitiesFromFile = readCitiesFromFile;
+exports.readCitiesFromFile = void 0;
 const fs = __importStar(require("fs/promises"));
-async function readCitiesFromFile() {
-    //percorso del file dalla variabile d'ambiente
+const readCitiesFromFile = async () => {
     const filePath = process.env.CITIES_FILE_PATH;
     if (!filePath) {
-        throw new Error("Errore: la variabile d'ambiente CITIES_FILE_PATH non è configurata");
+        throw new Error("Errore: la variabile d'ambiente CITIES_FILE_PATH non è configurata!");
     }
     try {
         const rawData = await fs.readFile(filePath, { encoding: 'utf8' });
@@ -47,7 +46,8 @@ async function readCitiesFromFile() {
         return cities;
     }
     catch (error) {
-        console.error(`[DAO Error] Impossibile leggere il file: ${filePath}`, error);
+        console.error(`[DAO Error] Impossibile leggere o parsare il file: ${filePath}`, error);
         throw error;
     }
-}
+};
+exports.readCitiesFromFile = readCitiesFromFile;

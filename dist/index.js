@@ -35,11 +35,11 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const http = __importStar(require("http"));
 const dotenv = __importStar(require("dotenv"));
-const cityDao_1 = require("./cityDao");
+const cityLogic_1 = require("./cityLogic");
 const sortManager_1 = require("./sortManager");
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-async function requestHandler(req, res) {
+const requestHandler = async (req, res) => {
     try {
         const host = req.headers.host || `localhost:${PORT}`;
         const parsedUrl = new URL(req.url || '', `http://${host}`);
@@ -53,24 +53,23 @@ async function requestHandler(req, res) {
             const normalizedSort = sortParam.toLowerCase();
             if (normalizedSort !== sortManager_1.SortDirection.ASC && normalizedSort !== sortManager_1.SortDirection.DESC) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
-                res.end(JSON.stringify({ error: `Valore del parametro '%sort' non valido: '${sortParam}'. Accettati solo 'asc' o 'desc' (sia in MAIUSCOLO che in minuscolo)` }));
+                res.end(JSON.stringify({ error: `Valore '%sort' non valido: '${sortParam}'. Accettati solo 'asc' o 'desc' (case-insensitive).` }));
                 return;
             }
-            const rawCities = await (0, cityDao_1.readCitiesFromFile)();
-            const sortedCities = (0, sortManager_1.sortCitiesByPopulation)(rawCities, normalizedSort);
+            const sortedCities = await (0, cityLogic_1.getProcessedCities)(normalizedSort);
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify(sortedCities, null, 2));
             return;
         }
         res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: "Endpoint non trovato. Usare GET /cities" }));
+        res.end(JSON.stringify({ error: "Endpoint non trovato. Usa GET /cities" }));
     }
     catch (error) {
-        console.error("[Global Error] errore nel server:", error);
+        console.error("[Global Error] Errore imprevisto nel server:", error);
         res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: "Internal Server Error . Si è verificato un errore nel server backend" }));
+        res.end(JSON.stringify({ error: "Internal Server Error - Si è verificato un errore nel server backend." }));
     }
-}
+};
 const server = http.createServer(requestHandler);
 server.listen(PORT, () => {
     console.log(`Server backend in ascolto sulla porta ${PORT}`);
